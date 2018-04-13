@@ -11,16 +11,20 @@
         android:id="@+id/radioCredit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/imageButton2"
         android:layout_alignStart="@+id/txt1"
-        android:layout_marginTop="55dp" />
+        android:layout_marginBottom="-68dp"
+        android:enabled="true" />
 
     <RadioButton
         android:id="@+id/radioPaypal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageButton3"
-        android:layout_alignStart="@+id/radioCredit" />
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/radioCredit"
+        android:layout_marginTop="83dp"
+        android:enabled="true" />
+
 
     <EditText
         android:id="@+id/txt1"
@@ -51,7 +55,7 @@
         android:layout_width="114dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/radioCredit"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/txt2"
         android:text="Expiration date:"
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/black" />
@@ -60,25 +64,15 @@
         android:id="@+id/spin1"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/spin2"
-        android:layout_marginEnd="16dp" />
+        android:layout_alignEnd="@+id/progressBar"
+        android:layout_centerVertical="true" />
 
     <Spinner
         android:id="@+id/spin2"
         android:layout_width="113dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="PANTALLA DE PAGO"
-        android:textColor="@android:color/holo_purple"
-        android:textSize="24sp" />
+        android:layout_alignStart="@+id/btnPay"
+        android:layout_centerVertical="true" />
 
     <TextView
         android:id="@+id/textView2"
@@ -114,9 +108,9 @@
         android:id="@+id/imageButton2"
         android:layout_width="209dp"
         android:layout_height="85dp"
+        android:layout_alignEnd="@+id/spin2"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/radioCredit"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="52dp"
         android:layout_weight="1"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
@@ -129,8 +123,7 @@
         android:layout_width="258dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/progressBar"
-        android:layout_marginTop="24dp"
+        android:layout_toEndOf="@+id/radioCredit"
         android:layout_weight="1"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
@@ -142,9 +135,8 @@
         android:id="@+id/imageButton4"
         android:layout_width="260dp"
         android:layout_height="131dp"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="-230dp"
+        android:layout_alignStart="@+id/radioCredit"
+        android:layout_below="@+id/cvv"
         android:layout_weight="1"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"

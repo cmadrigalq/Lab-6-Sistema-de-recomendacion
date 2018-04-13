@@ -4,33 +4,42 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Spinner;
+
+import java.util.Calendar;
+import java.util.Locale;
 
 public class Activity_Pagos extends AppCompatActivity {
+    RadioButton rb1;
+    RadioButton rb2;
+    Spinner spn;
+
+    Calendar mCalendar = Calendar.getInstance();
+    String mesActual = mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__pagos);
-        setTitle("Cobro");
+        setTitle("PANTALLA DE PAGO");
     }
     void alt2(){
-        cb1 = (CheckBox) super.findViewById(R.id.checkBox1);
-        cb2 = (CheckBox) super.findViewById(R.id.checkBox2);
-        txt = (EditText) super.findViewById(R.id.txt);
+        rb1 = (RadioButton) super.findViewById(R.id.radioCredit);
+        rb2 = (RadioButton) super.findViewById(R.id.radioPaypal);
         View.OnClickListener evento = new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 CheckBox ck = (CheckBox)v;
-                if(ck.getId() == cb1.getId()){
-                    cb2.setChecked(false);
+                if(ck.getId() == rb1.getId()){
+                    rb2.setChecked(false);
                 }else{
-                    cb1.setChecked(false);
+                    rb1.setChecked(false);
                 }
-                txt.setText(ck.getText());
             }
         };
-        cb1.setOnClickListener(evento);
-        cb2.setOnClickListener(evento);
+        rb1.setOnClickListener(evento);
+        rb2.setOnClickListener(evento);
     }
+
 }
