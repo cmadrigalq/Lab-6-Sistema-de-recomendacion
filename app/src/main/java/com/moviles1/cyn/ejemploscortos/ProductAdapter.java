@@ -16,13 +16,19 @@ import java.util.List;
  * Created by Belal on 10/18/2017.
  */
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder>
+    implements OnProductoListener {
 
     //this context we will use to inflate the layout
     private Context mCtx;
 
     //we are storing all the products in a list
     private List<Producto> productList;
+    private OnAdapterListener onAdapterListener;
+
+    public void setOnAdapterListener(OnAdapterListener onAdapterListener) {
+        this.onAdapterListener = onAdapterListener;
+    }
 
     //getting the context and product list with constructor
     public ProductAdapter(Context mCtx, List<Producto> productList) {
@@ -35,7 +41,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         View view = inflater.inflate(R.layout.list_layout, null);
-        return new ProductViewHolder(view);
+        return new ProductViewHolder(view, this);
     }
 
     @Override
@@ -57,13 +63,23 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return productList.size();
     }
 
+    @Override
+    public void onCheckBoxSelected(int position) {
+        onAdapterListener.onProductoClicked(position,productList.get(position).getTitle());
+    }
+
+    @Override
+    public void onCheckBoxUnselected(int position) {
+        onAdapterListener.onProductoClicked(position,productList.get(position).getTitle());
+    }
+
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewTitle, textViewShortDesc, textViewRating, textViewPrice;
         ImageView imageView;
         CheckBox checkBox;
 
-        public ProductViewHolder(View itemView) {
+        public ProductViewHolder(View itemView, final OnProductoListener onProductoListener) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewShortDesc = itemView.findViewById(R.id.textViewShortDesc);
@@ -71,13 +87,23 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             imageView = itemView.findViewById(R.id.imageView);
             checkBox = itemView.findViewById(R.id.checkbox);
-            checkBox.setOnClickListener(new View.OnClickListener(){
+            checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
-                    Toast toast=Toast.makeText(mCtx,"Probando",Toast.LENGTH_SHORT);
-                    toast.show();
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    boolean checked = checkBox.isChecked();
+                    if(checked == true) {
+                        if (position != RecyclerView.NO_POSITION) {
+                            onProductoListener.onCheckBoxSelected(position);
+                        }
+                    }else{
+                        if (position != RecyclerView.NO_POSITION) {
+                            onProductoListener.onCheckBoxUnselected(position);
+                        }
+                    }
                 }
             });
+
         }
     }
 }
