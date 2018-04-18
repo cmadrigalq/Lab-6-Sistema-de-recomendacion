@@ -8,17 +8,15 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 /**
- * Created by Belal on 10/18/2017.
+ * Created by LENOVO on 17/4/2018.
  */
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder>
-    implements OnProductoListener {
-
+public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ProductViewHolder>
+        implements OnProductoListener{
     //this context we will use to inflate the layout
     private Context mCtx;
 
@@ -31,21 +29,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     //getting the context and product list with constructor
-    public ProductAdapter(Context mCtx, List<Producto> productList) {
+    public CarritoAdapter(Context mCtx, List<Producto> productList) {
         this.mCtx = mCtx;
         this.productList = productList;
     }
 
     @Override
-    public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CarritoAdapter.ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.list_layout, null);
-        return new ProductViewHolder(view, this);
+        View view = inflater.inflate(R.layout.carritolist_layout, null);
+        return new CarritoAdapter.ProductViewHolder(view, this);
     }
 
     @Override
-    public void onBindViewHolder(ProductViewHolder holder, int position) {
+    public void onBindViewHolder(CarritoAdapter.ProductViewHolder holder, int position) {
         //getting the product of the specified position
         Producto product = productList.get(position);
 
@@ -77,7 +75,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         TextView textViewTitle, textViewShortDesc, textViewRating, textViewPrice;
         ImageView imageView;
-        CheckBox checkBox;
 
         public ProductViewHolder(View itemView, final OnProductoListener onProductoListener) {
             super(itemView);
@@ -86,24 +83,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             imageView = itemView.findViewById(R.id.imageView);
-            checkBox = itemView.findViewById(R.id.checkbox);
-            checkBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    boolean checked = checkBox.isChecked();
-                    if(checked == true) {
-                        if (position != RecyclerView.NO_POSITION) {
-                            onProductoListener.onCheckBoxSelected(position);
-                        }
-                    }else{
-                        if (position != RecyclerView.NO_POSITION) {
-                            onProductoListener.onCheckBoxUnselected(position);
-                        }
-                    }
-                }
-            });
-
         }
     }
 }
