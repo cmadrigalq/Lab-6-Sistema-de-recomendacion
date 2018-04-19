@@ -41,4 +41,27 @@ public class Producto {
         return image;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setShortdesc(String shortdesc) {
+        this.shortdesc = shortdesc;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
+    }
 }

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CarritoActivity extends AppCompatActivity {
@@ -38,10 +39,16 @@ public class CarritoActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(getApplicationContext(), "Agregado: " + nombreProducto, Toast.LENGTH_SHORT);
                 toast.show();
             }
+            @Override
+            public void calcularPrecioFinal(Double precio) {
+                TextView precioTv = (TextView)findViewById(R.id.textViewPrecio);
+                precioTv.setText(Double.toString(precio));
+            }
+
         });
         recyclerView.setAdapter(adapter);
-        TextView precio = (TextView)findViewById(R.id.textViewPrecio);
-        precio.setText(precioFinal());
+        //TextView precio = (TextView)findViewById(R.id.textViewPrecio);
+        //precio.setText(precioFinal());
         btnPagar =  (Button) findViewById(R.id.btnPagar);
         btnPagar.setOnClickListener(new View.OnClickListener(){
             @Override

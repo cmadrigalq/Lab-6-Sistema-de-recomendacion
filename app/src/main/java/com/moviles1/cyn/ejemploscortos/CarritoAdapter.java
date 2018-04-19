@@ -5,11 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +21,14 @@ import java.util.List;
  */
 
 public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ProductViewHolder>
-        implements OnProductoListener{
+        implements OnCarritoListener{
     //this context we will use to inflate the layout
     private Context mCtx;
 
     //we are storing all the products in a list
     private List<Producto> productList;
     private OnAdapterListener onAdapterListener;
+    double precioFinal = 0.0;
 
     public void setOnAdapterListener(OnAdapterListener onAdapterListener) {
         this.onAdapterListener = onAdapterListener;
@@ -46,21 +49,31 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ProductV
     }
 
     @Override
-    public void onBindViewHolder(CarritoAdapter.ProductViewHolder holder, int position) {
+    public void onBindViewHolder(final CarritoAdapter.ProductViewHolder holder, final int position) {
         //getting the product of the specified position
-        Producto product = productList.get(position);
-
-        //binding the data with the viewholder views
-        holder.textViewTitle.setText(product.getTitle());
-        holder.textViewPrice.setText("₡"+String.valueOf(product.getPrice()));
-        holder.imageView.setImageDrawable(mCtx.getResources().getDrawable(product.getImage()));
-        ArrayList<String> spinnerItems = new ArrayList<>();
+        final Producto product = productList.get(position);
+        //init spinner Items
+        final ArrayList<String> spinnerItems = new ArrayList<>();
         for(int i = 1; i <= 25; i++){
             spinnerItems.add(Integer.toString(i));
         }
+        //binding the data with the viewholder views
+        holder.textViewTitle.setText(product.getTitle());
+        holder.imageView.setImageDrawable(mCtx.getResources().getDrawable(product.getImage()));
         ArrayAdapter adapter = new ArrayAdapter<String>(mCtx,
                 android.R.layout.simple_spinner_dropdown_item,spinnerItems);
         holder.spinner.setAdapter(adapter);
+        holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+                double precioXcantidad = product.getPrice() * Double.parseDouble((String) adapterView.getItemAtPosition(pos));
+                holder.textViewPrice.setText("₡"+String.valueOf(precioXcantidad));
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // ...
+            }
+        });
     }
 
     @Override
@@ -69,13 +82,8 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ProductV
     }
 
     @Override
-    public void onCheckBoxSelected(int position) {
-        onAdapterListener.onProductoClicked(position,productList.get(position).getTitle(),productList.get(position).getId());
-    }
-
-    @Override
-    public void onCheckBoxUnselected(int position) {
-        onAdapterListener.onProductoClicked(position,productList.get(position).getTitle(),productList.get(position).getId());
+    public void precioTotal(Double precio) {
+        onAdapterListener.calcularPrecioFinal(precio);
     }
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
@@ -84,7 +92,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ProductV
         Spinner spinner;
         ImageView imageView;
 
-        public ProductViewHolder(View itemView, final OnProductoListener onProductoListener) {
+        public ProductViewHolder(View itemView, final OnCarritoListener onCarritoListener) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);

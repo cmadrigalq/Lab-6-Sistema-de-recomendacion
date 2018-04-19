@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
+            @Override
+            public void calcularPrecioFinal(Double precio) {
+
+            }
         });
         recyclerView.setAdapter(adapter);
         btnVerCarrito =  (Button) findViewById(R.id.btnVerCarrito);
