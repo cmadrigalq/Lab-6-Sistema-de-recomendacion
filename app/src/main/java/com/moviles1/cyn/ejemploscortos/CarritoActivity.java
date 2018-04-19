@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -39,7 +40,8 @@ public class CarritoActivity extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(adapter);
-
+        TextView precio = (TextView)findViewById(R.id.textViewPrecio);
+        precio.setText(precioFinal());
         btnPagar =  (Button) findViewById(R.id.btnPagar);
         btnPagar.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -49,4 +51,13 @@ public class CarritoActivity extends AppCompatActivity {
             }
         });
     }
+
+    public String precioFinal(){
+        Double precio = 0.0;
+        for(int i = 0; i < listaProductosCarrito.size(); i++){
+            precio = precio + listaProductosCarrito.get(i).getPrice();
+        }
+        return Double.toString(precio);
+    }
+
 }

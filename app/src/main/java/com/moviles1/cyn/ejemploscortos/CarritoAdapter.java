@@ -5,10 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,11 +52,15 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ProductV
 
         //binding the data with the viewholder views
         holder.textViewTitle.setText(product.getTitle());
-        holder.textViewShortDesc.setText(product.getShortdesc());
-        holder.textViewRating.setText(String.valueOf(product.getRating()));
         holder.textViewPrice.setText("₡"+String.valueOf(product.getPrice()));
         holder.imageView.setImageDrawable(mCtx.getResources().getDrawable(product.getImage()));
-
+        ArrayList<String> spinnerItems = new ArrayList<>();
+        for(int i = 1; i <= 25; i++){
+            spinnerItems.add(Integer.toString(i));
+        }
+        ArrayAdapter adapter = new ArrayAdapter<String>(mCtx,
+                android.R.layout.simple_spinner_dropdown_item,spinnerItems);
+        holder.spinner.setAdapter(adapter);
     }
 
     @Override
@@ -73,16 +80,17 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ProductV
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewTitle, textViewShortDesc, textViewRating, textViewPrice;
+        TextView textViewTitle, textViewPrice;
+        Spinner spinner;
         ImageView imageView;
 
         public ProductViewHolder(View itemView, final OnProductoListener onProductoListener) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
-            textViewShortDesc = itemView.findViewById(R.id.textViewShortDesc);
-            textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             imageView = itemView.findViewById(R.id.imageView);
+            spinner = itemView.findViewById(R.id.spinner);
         }
     }
+
 }

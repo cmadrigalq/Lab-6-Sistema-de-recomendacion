@@ -4,16 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.moviles1.cyn.ejemploscortos.CarritoActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/btnPagar"
-        android:layout_alignParentStart="true">
+        android:layout_height="419dp"></android.support.v7.widget.RecyclerView>
 
-    </android.support.v7.widget.RecyclerView>
+    <TextView
+        android:id="@+id/tvtotal"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="47dp"
+        android:text="TOTAL:"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textViewPrecio"
+        android:layout_width="276dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvtotal"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="12dp"
+        android:text="TextView"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle" />
 
     <Button
         android:id="@+id/btnPagar"
