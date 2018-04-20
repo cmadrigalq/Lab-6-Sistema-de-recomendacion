@@ -1,28 +1,47 @@
 package com.moviles1.cyn.ejemploscortos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
+import java.util.List;
 
 public class Activity_Pagos extends AppCompatActivity {
     RadioButton rb1;
     RadioButton rb2;
     Spinner spn;
-
+    Double total;
     Calendar mCalendar = Calendar.getInstance();
-    String mesActual = mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__pagos);
         setTitle("PANTALLA DE PAGO");
+        alt2();
+        llenarMeses();
+        llenarAnnos();
+        Intent intent = getIntent();
+        total = intent.getDoubleExtra(CarritoActivity.TOTAL_A_PAGAR,0.0);
+        setTitle(String.format("Total: "+String.valueOf(total)));
+        Button b = findViewById(R.id.btnPay);
+        b.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                ProgressBar p = Activity_Pagos.this.findViewById(R.id.progressBar);
+                p.setProgress(p.getMax());
+            }
+
+        });
     }
     void alt2(){
         rb1 = (RadioButton) super.findViewById(R.id.radioCredit);
@@ -41,5 +60,24 @@ public class Activity_Pagos extends AppCompatActivity {
         rb1.setOnClickListener(evento);
         rb2.setOnClickListener(evento);
     }
+    void llenarMeses(){
+        List<String> meses = new ArrayList<>();
+        for(int i = 1; i < 13 ; i++){
+            meses.add(String.valueOf(i));
+        }
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,meses);
+        ((Spinner)findViewById(R.id.spin2)).setAdapter(adapter);
+    }
+    void llenarAnnos(){
+        int current = mCalendar.get(Calendar.YEAR);
+        List<String> annos = new ArrayList<>();
+        for(int i = current; i<current+5;i++){
+            annos.add(String.valueOf(i));
+        }
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,annos);
+        ((Spinner)findViewById(R.id.spin1)).setAdapter(adapter);
+    }
+
+
 
 }

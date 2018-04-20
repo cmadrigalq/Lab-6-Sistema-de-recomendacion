@@ -7,7 +7,7 @@ public class Producto {
     private double rating;
     private double price;
     private int image;
-
+    private int cantidad = 0;
     public Producto(int id, String title, String shortdesc, double rating, double price, int image) {
         this.id = id;
         this.title = title;
@@ -63,5 +63,12 @@ public class Producto {
 
     public void setImage(int image) {
         this.image = image;
+    }
+
+    public int getCantidad(){
+        return this.cantidad;
+    }
+    public void setCantidad(int c){
+        this.cantidad = c;
     }
 }

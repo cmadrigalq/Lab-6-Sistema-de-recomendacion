@@ -7,11 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +22,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ProductV
         implements OnCarritoListener{
     //this context we will use to inflate the layout
     private Context mCtx;
-
+    CarritoActivity padre;
     //we are storing all the products in a list
     private List<Producto> productList;
     private OnAdapterListener onAdapterListener;
@@ -35,7 +33,8 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ProductV
     }
 
     //getting the context and product list with constructor
-    public CarritoAdapter(Context mCtx, List<Producto> productList) {
+    public CarritoAdapter(Context mCtx, List<Producto> productList,CarritoActivity padre) {
+        this.padre = padre;
         this.mCtx = mCtx;
         this.productList = productList;
     }
@@ -66,8 +65,11 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ProductV
         holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-                double precioXcantidad = product.getPrice() * Double.parseDouble((String) adapterView.getItemAtPosition(pos));
+                int cantidad =  Integer.parseInt((String) adapterView.getItemAtPosition(pos));
+                double precioXcantidad = product.getPrice() * (double) cantidad;
+                product.setCantidad(cantidad);
                 holder.textViewPrice.setText("₡"+String.valueOf(precioXcantidad));
+                CarritoAdapter.this.calcularSubTotal();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -75,6 +77,11 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ProductV
             }
         });
     }
+
+    public void calcularSubTotal(){
+        this.padre.upDateTextViewPrecio();
+    }
+
 
     @Override
     public int getItemCount() {

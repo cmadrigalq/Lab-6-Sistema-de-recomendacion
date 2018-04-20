@@ -1,8 +1,8 @@
 package com.moviles1.cyn.ejemploscortos;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,16 +10,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CarritoActivity extends AppCompatActivity {
+    final public static String TOTAL_A_PAGAR = "TOTAL_A_PAGAR";
     Button btnPagar;
     RecyclerView recyclerView;
     CarritoAdapter adapter; // todo Cambiar
     List<Producto> listaProductosCarrito;
     Model model;
-
+    double totalApagar = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +31,7 @@ public class CarritoActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CarritoAdapter(this, listaProductosCarrito);
+        adapter = new CarritoAdapter(this, listaProductosCarrito,this);
         adapter.setOnAdapterListener(new OnAdapterListener() {
             @Override
             public void onProductoClicked(int position, String nombreProducto, int id) {
@@ -41,8 +41,7 @@ public class CarritoActivity extends AppCompatActivity {
             }
             @Override
             public void calcularPrecioFinal(Double precio) {
-                TextView precioTv = (TextView)findViewById(R.id.textViewPrecio);
-                precioTv.setText(Double.toString(precio));
+                CarritoActivity.this.upDateTextViewPrecio();
             }
 
         });
@@ -53,18 +52,34 @@ public class CarritoActivity extends AppCompatActivity {
         btnPagar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent i = new Intent(CarritoActivity.this, Activity_Pagos.class);
-                startActivity(i);
+                if(CarritoActivity.this.totalApagar > 0) {
+                    Intent i = new Intent(CarritoActivity.this, Activity_Pagos.class);
+                    i.putExtra(CarritoActivity.TOTAL_A_PAGAR, CarritoActivity.this.totalApagar);
+                    startActivity(i);
+                }else{
+                    Toast toast = Toast.makeText(getApplicationContext(),"No hay productos en el carrito.",Toast.LENGTH_LONG);
+                    toast.show();
+                }
             }
         });
+        upDateTextViewPrecio();
     }
 
-    public String precioFinal(){
-        Double precio = 0.0;
-        for(int i = 0; i < listaProductosCarrito.size(); i++){
-            precio = precio + listaProductosCarrito.get(i).getPrice();
+    void precioFinal(){
+        totalApagar = 0;
+        for(Producto p : listaProductosCarrito){
+            this.totalApagar+= (p.getPrice() * p.getCantidad());
         }
-        return Double.toString(precio);
     }
-
+    double getTotalApagar(){
+        return this.totalApagar;
+    }
+    void setTotalApagar(double t){
+        this.totalApagar = t;
+    }
+    public void upDateTextViewPrecio(){
+        this.precioFinal();
+        TextView t = super.findViewById(R.id.textViewPrecio);
+        t.setText(String.valueOf(this.totalApagar));
+    }
 }
