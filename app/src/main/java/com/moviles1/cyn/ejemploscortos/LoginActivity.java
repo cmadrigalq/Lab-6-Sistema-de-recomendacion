@@ -52,6 +52,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
+
+    public ArrayList<String> credenciales(){
+        ArrayList<String> resultado = new ArrayList<>();
+        String dato = "";
+        ArrayList<Usuario> listaUsuarios = model.getListaUsuarios();
+        for(int i = 0; i < listaUsuarios.size(); i++){
+            dato = listaUsuarios.get(i).getUserName() + ":" + listaUsuarios.get(i).getPassword() + "-" + listaUsuarios.get(i).getTipo();
+            resultado.add(dato) ;
+        }
+        return resultado;
+    }
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -70,6 +81,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
+
+        model.initProductoList();
+        model.initUsuarioList();
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -161,7 +175,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -172,10 +186,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
+        }
+
+        Usuario usuarioActivo = new Usuario();
+        if(!cancel){
+            for (String credential : credenciales()) {
+                String[] pieces = credential.split(":");
+                String[] info = pieces[1].split("-");
+                if (!pieces[0].equals(email) || !info[0].equals(password)) {
+                    // Account exists, return true if the password matches.
+                    mEmailView.setError(getString(R.string.error_invalid_credentials));
+                    focusView = mEmailView;
+                    cancel = true;
+                }else{
+                    int tipo = Integer.parseInt(info[1]);
+                    usuarioActivo = new Usuario(email,password,new ArrayList<Producto>(),tipo);
+                    model.setUsuarioActivo(usuarioActivo);
+                    cancel = false;
+                    break;
+                }
+            }
         }
 
         if (cancel) {
@@ -188,10 +218,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
+            Intent intent = new Intent(this, NavDrawActivity.class);
+            startActivity(intent);
         }
-        Intent intent = new Intent(this, NavDrawActivity.class);
-        model.initProductoList();
-        startActivity(intent);
     }
 
     private boolean isEmailValid(String email) {

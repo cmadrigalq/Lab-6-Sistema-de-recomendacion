@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 public class NavDrawActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    Model model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class NavDrawActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        ocultaOpciones(navigationView,model.getUsuarioActivo());
     }
 
     @Override
@@ -89,9 +91,8 @@ public class NavDrawActivity extends AppCompatActivity
             Intent intent = new Intent(this, CarritoActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_listaUsuarios) {
-            //Intent intent = new Intent(this, LoginActivity.class);
-            //startActivity(intent);
-            Toast.makeText(this,"Falta... Lista de usuarios",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MantenimientoUsuariosActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_logOut) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -102,4 +103,13 @@ public class NavDrawActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void ocultaOpciones(NavigationView navigationView, Usuario usuario){
+        if(usuario.getTipo() == 1){  // 1. Administrador: tiene acceso a catalogo de productos y lista de usuarios
+            navigationView.getMenu().findItem(R.id.nav_listaListaCarrito).setVisible(false);
+        }else if(usuario.getTipo() == 2 ){ // 2. Cliente: tiene acceso a catalogo y carrito de compras
+            navigationView.getMenu().findItem(R.id.nav_listaUsuarios).setVisible(false);
+        }
+    }
+
 }

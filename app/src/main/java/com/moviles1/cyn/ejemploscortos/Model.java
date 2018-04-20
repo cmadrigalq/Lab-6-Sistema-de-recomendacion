@@ -11,6 +11,7 @@ public class Model {
     static List<Producto> productoList = new ArrayList<>();
     static List<Producto> listaProductosCarrito = new ArrayList<>();
     static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+    static Usuario usuarioActivo = new Usuario();
 
     public static List<Producto> getProductoList() {
         return productoList;
@@ -34,6 +35,14 @@ public class Model {
 
     public static void setListaUsuarios(ArrayList<Usuario> listaUsuarios) {
         Model.listaUsuarios = listaUsuarios;
+    }
+
+    public static Usuario getUsuarioActivo() {
+        return usuarioActivo;
+    }
+
+    public static void setUsuarioActivo(Usuario usuarioActivo) {
+        Model.usuarioActivo = usuarioActivo;
     }
 
     public static void initProductoList(){
@@ -106,7 +115,7 @@ public class Model {
                 new Usuario("Admin","123",null,1));
 
         listaUsuarios.add(
-                new Usuario("User","123",null,2));
+                new Usuario("User","123",new ArrayList<Producto>(),2));
     }
 
 }
