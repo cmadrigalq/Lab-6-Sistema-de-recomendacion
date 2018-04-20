@@ -10,6 +10,7 @@ import java.util.List;
 public class Model {
     static List<Producto> productoList = new ArrayList<>();
     static List<Producto> listaProductosCarrito = new ArrayList<>();
+    static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
 
     public static List<Producto> getProductoList() {
         return productoList;
@@ -25,6 +26,14 @@ public class Model {
 
     public static void setListaProductosCarrito(List<Producto> listaProductosCarrito) {
         listaProductosCarrito = listaProductosCarrito;
+    }
+
+    public static ArrayList<Usuario> getListaUsuarios() {
+        return listaUsuarios;
+    }
+
+    public static void setListaUsuarios(ArrayList<Usuario> listaUsuarios) {
+        Model.listaUsuarios = listaUsuarios;
     }
 
     public static void initProductoList(){
@@ -91,4 +100,13 @@ public class Model {
                         250000,
                         R.drawable.gateway));
     }
+
+    public static void initUsuarioList(){
+        listaUsuarios.add(
+                new Usuario("Admin","123",null,1));
+
+        listaUsuarios.add(
+                new Usuario("User","123",null,2));
+    }
+
 }

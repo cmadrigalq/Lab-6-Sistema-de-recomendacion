@@ -85,6 +85,13 @@ public class NavDrawActivity extends AppCompatActivity
         if (id == R.id.nav_listaProductos) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_listaListaCarrito) {
+            Intent intent = new Intent(this, CarritoActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_listaUsuarios) {
+            //Intent intent = new Intent(this, LoginActivity.class);
+            //startActivity(intent);
+            Toast.makeText(this,"Falta... Lista de usuarios",Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_logOut) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);

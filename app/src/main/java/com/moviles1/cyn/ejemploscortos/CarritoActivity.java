@@ -16,7 +16,7 @@ public class CarritoActivity extends AppCompatActivity {
     final public static String TOTAL_A_PAGAR = "TOTAL_A_PAGAR";
     Button btnPagar;
     RecyclerView recyclerView;
-    CarritoAdapter adapter; // todo Cambiar
+    CarritoAdapter adapter;
     List<Producto> listaProductosCarrito;
     Model model;
     double totalApagar = 0;
