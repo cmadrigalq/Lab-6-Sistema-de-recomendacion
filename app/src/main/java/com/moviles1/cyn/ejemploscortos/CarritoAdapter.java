@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -82,6 +83,10 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ProductV
         this.padre.upDateTextViewPrecio();
     }
 
+    @Override
+    public void quitarDelCarrito(int position) {
+        onAdapterListener.onDeleteProductClicked(position,productList.get(position).getTitle(),productList.get(position).getId());
+    }
 
     @Override
     public int getItemCount() {
@@ -98,6 +103,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ProductV
         TextView textViewTitle, textViewPrice;
         Spinner spinner;
         ImageView imageView;
+        ImageButton imageButton;
 
         public ProductViewHolder(View itemView, final OnCarritoListener onCarritoListener) {
             super(itemView);
@@ -105,6 +111,16 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ProductV
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             imageView = itemView.findViewById(R.id.imageView);
             spinner = itemView.findViewById(R.id.spinner);
+            imageButton = itemView.findViewById(R.id.idQuitar);
+            imageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onCarritoListener.quitarDelCarrito(position);
+                    }
+                }
+            });
         }
     }
 

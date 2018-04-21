@@ -22,9 +22,10 @@ public class MainActivity extends AppCompatActivity {
     List<Producto> listaProductosCarrito;
     Model model;
     Button btnVerCarrito;
+    public static final int request_Code=1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("Catálogo de Productos");
@@ -59,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
             public void calcularPrecioFinal(Double precio) {
 
             }
+
+            @Override
+            public void onDeleteProductClicked(int position, String title, int id) {
+
+            }
         });
         recyclerView.setAdapter(adapter);
         btnVerCarrito =  (Button) findViewById(R.id.btnVerCarrito);
@@ -70,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     public boolean estaEnCarrito(String nombre, int id){
         boolean flag = false;

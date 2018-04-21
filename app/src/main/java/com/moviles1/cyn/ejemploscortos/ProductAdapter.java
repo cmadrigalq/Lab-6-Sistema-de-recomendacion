@@ -73,11 +73,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         onAdapterListener.onProductoClicked(position,productList.get(position).getTitle(),productList.get(position).getId());
     }
 
-    class ProductViewHolder extends RecyclerView.ViewHolder {
+    public class ProductViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewTitle, textViewShortDesc, textViewRating, textViewPrice;
         ImageView imageView;
-        CheckBox checkBox;
+        public CheckBox checkBox;
 
         public ProductViewHolder(View itemView, final OnProductoListener onProductoListener) {
             super(itemView);

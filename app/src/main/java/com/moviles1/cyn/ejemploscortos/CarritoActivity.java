@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CarritoActivity extends AppCompatActivity {
@@ -20,8 +22,10 @@ public class CarritoActivity extends AppCompatActivity {
     List<Producto> listaProductosCarrito;
     Model model;
     double totalApagar = 0;
+    List<Producto> productosborrados = new ArrayList<>();
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrito);
         setTitle("Carrito de Compras");
@@ -44,6 +48,19 @@ public class CarritoActivity extends AppCompatActivity {
                 CarritoActivity.this.upDateTextViewPrecio();
             }
 
+            @Override
+            public void onDeleteProductClicked(int position, String title, int id) {
+                Producto producto = listaProductosCarrito.get(position);
+                for(int i = 0; i < listaProductosCarrito.size(); i++){
+                    if(producto.getTitle().equals(listaProductosCarrito.get(i).getTitle())){
+                        listaProductosCarrito.remove(i);
+                        recyclerView.removeViewAt(i);
+                        Toast toast = Toast.makeText(getApplicationContext(), "Removido " , Toast.LENGTH_SHORT);
+                        toast.show();
+                        break;
+                    }
+                }
+            }
         });
         recyclerView.setAdapter(adapter);
         //TextView precio = (TextView)findViewById(R.id.textViewPrecio);
@@ -65,6 +82,7 @@ public class CarritoActivity extends AppCompatActivity {
         upDateTextViewPrecio();
     }
 
+
     void precioFinal(){
         totalApagar = 0;
         for(Producto p : listaProductosCarrito){
@@ -81,5 +99,16 @@ public class CarritoActivity extends AppCompatActivity {
         this.precioFinal();
         TextView t = super.findViewById(R.id.textViewPrecio);
         t.setText(String.valueOf(this.totalApagar));
+    }
+
+    public boolean estaEnCarrito(String nombre, int id){
+        boolean flag = false;
+        for(int i = 0; i < listaProductosCarrito.size(); i++){
+            if(listaProductosCarrito.get(i).getTitle().equals(nombre) &&
+                    listaProductosCarrito.get(i).getId() == id){
+                flag = true;
+            }
+        }
+        return flag;
     }
 }
