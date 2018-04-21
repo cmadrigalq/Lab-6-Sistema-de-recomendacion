@@ -35,7 +35,7 @@
         android:layout_marginBottom="-191dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name as it appears on your card"
+        android:hint="Name as it appears on your card"
         android:textColor="@android:color/darker_gray" />
 
     <EditText
@@ -47,7 +47,7 @@
         android:layout_marginTop="191dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Card number without dashes or spaces"
+        android:hint="Card number without dashes or spaces"
         android:textColor="@android:color/darker_gray" />
 
     <TextView
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/radioCredit"
         android:layout_below="@+id/txt2"
-        android:text="Expiration date:"
+        android:hint="Expiration date:"
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/black" />
 
@@ -65,14 +65,16 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/progressBar"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        />
 
     <Spinner
         android:id="@+id/spin2"
         android:layout_width="113dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/btnPay"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        />
 
     <TextView
         android:id="@+id/textView2"
@@ -153,7 +155,7 @@
         android:layout_toEndOf="@+id/textView2"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="CVV here..."
+        android:hint="CVV here..."
         android:textColor="@android:color/darker_gray" />
 
 </RelativeLayout>

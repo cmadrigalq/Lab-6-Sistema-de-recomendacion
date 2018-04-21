@@ -6,10 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,7 +22,7 @@ public class Activity_Pagos extends AppCompatActivity {
     Spinner spn;
     Double total;
     Calendar mCalendar = Calendar.getInstance();
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,19 +38,78 @@ public class Activity_Pagos extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                ProgressBar p = Activity_Pagos.this.findViewById(R.id.progressBar);
-                p.setProgress(p.getMax());
+                if(validar()){
+                    ProgressBar p = Activity_Pagos.this.findViewById(R.id.progressBar);
+                    p.setProgress(p.getMax());
+                    mostrarMensaje("La transacción se realizó con exito! Gracias por preferirnos.");
+                    Intent i = new Intent(Activity_Pagos.this, MainActivity.class);
+                    startActivity(i);
+                }
             }
-
+            
         });
     }
+
+    boolean validar(){
+        boolean result = true;
+        String msg = "";
+        if(!Activity_Pagos.this.rb1.isChecked() && !Activity_Pagos.this.rb2.isChecked()){
+            msg += "Debe seleccionar un método de pago.";
+            result = false;
+        }
+        TextView txt = findViewById(R.id.txt1);
+        if( txt.getText().toString().trim().isEmpty()  ){
+            msg += "Debe ingresar el nombre que aparece en la tarjeta.";
+            result = false;
+        }else{
+            String vars[] = txt.getText().toString().split(" ");
+            if(vars.length > 4) {
+                msg += "Debe ingresar el nombre que aparece en la tarjeta.";
+                result = false;
+            }
+        }
+        if( ((TextView)findViewById(R.id.txt2)).getText().toString().trim().isEmpty()  ){
+            msg += "Debe ingresar el número de la tarjeta.";
+            result = false;
+        }else {
+            try {
+                int aux = Integer.valueOf(((TextView)findViewById(R.id.txt2)).getText().toString());
+            } catch (Exception ex) {
+                msg += "Revise el número de tarjeta";
+                result = false;
+            }
+        }
+        TextView ccv = findViewById(R.id.cvv);
+        if( ccv.getText().toString().trim() == "" && ccv.getText().length() < 3  ){
+            //no esta en blanco                      tiene más de 3 digitos
+            msg += "Revise el cvv.";
+            result = false;
+        }else {
+            try {
+                int aux = Integer.valueOf(ccv.getText().toString());
+            } catch (Exception ex) {
+                msg += "Revise el cvv.";
+                result = false;
+            }
+        }
+        if(!result)
+            mostrarMensaje(msg);
+        return result;
+    }
+
+    void mostrarMensaje(String msg){
+        Toast toast = Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+
     void alt2(){
         rb1 = (RadioButton) super.findViewById(R.id.radioCredit);
         rb2 = (RadioButton) super.findViewById(R.id.radioPaypal);
         View.OnClickListener evento = new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                CheckBox ck = (CheckBox)v;
+                RadioButton ck = (RadioButton)v;
                 if(ck.getId() == rb1.getId()){
                     rb2.setChecked(false);
                 }else{
@@ -77,7 +137,8 @@ public class Activity_Pagos extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,annos);
         ((Spinner)findViewById(R.id.spin1)).setAdapter(adapter);
     }
-
-
-
+    
+    
+    
 }
+
