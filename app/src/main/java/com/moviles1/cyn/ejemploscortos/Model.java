@@ -8,10 +8,25 @@ import java.util.List;
  */
 
 public class Model {
-    static List<Producto> productoList = new ArrayList<>();
-    static List<Producto> listaProductosCarrito = new ArrayList<>();
-    static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
-    static Usuario usuarioActivo = new Usuario();
+    static List<Producto> productoList;
+    static List<Producto> listaProductosCarrito;
+    static ArrayList<Usuario> listaUsuarios;
+    static Usuario usuarioActivo;
+    public static int instance = 0;
+
+    public Model() {
+    }
+
+    public static void init(){
+        instance = 1;
+        productoList = new ArrayList<>();
+        listaProductosCarrito = new ArrayList<>();
+        listaUsuarios = new ArrayList<>();
+        usuarioActivo = new Usuario();
+        initProductoList();
+        initUsuarioList();
+
+    }
 
     public static List<Producto> getProductoList() {
         return productoList;
