@@ -13,8 +13,17 @@ public class Model {
     static ArrayList<Usuario> listaUsuarios;
     static Usuario usuarioActivo;
     public static int instance = 0;
+    static Model instancia;
+    /*Para pasarlo luego a singleton*/
+    public static Model getInstancia(){
+        if(Model.instancia == null){
+            Model.instancia = new Model();
+        }
+        return Model.instancia;
+    }
 
-    public Model() {
+    private Model() {
+
     }
 
     public static void init(){

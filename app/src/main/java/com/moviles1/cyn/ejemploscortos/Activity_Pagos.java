@@ -42,6 +42,7 @@ public class Activity_Pagos extends AppCompatActivity {
                     ProgressBar p = Activity_Pagos.this.findViewById(R.id.progressBar);
                     p.setProgress(p.getMax());
                     mostrarMensaje("La transacción se realizó con exito! Gracias por preferirnos.");
+                    Model.listaProductosCarrito.clear();
                     Intent i = new Intent(Activity_Pagos.this, MainActivity.class);
                     startActivity(i);
                 }
